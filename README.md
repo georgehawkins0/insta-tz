@@ -1,6 +1,9 @@
 # insta-tz
- 
 Get analysis of instagram user post time from a cli based OSINT application.
+
+<p align="center">
+<img src="img/insta-tz.png" width=100/>
+</p>
 
 # Table of contents
 
