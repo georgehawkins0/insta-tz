@@ -64,30 +64,38 @@ def onlogin_callback(api, new_settings_file):
 def login():
     username = get_username()
     password = get_password()
-    
-
     settings_file_path = "./creds/settings.json"
     device_id = None
+    
     try:
-            settings_file = settings_file_path
-            if not os.path.isfile(settings_file):
-                # settings file does not exist
-                print('Unable to find file: {0!s}'.format(settings_file))
+        settings_file = settings_file_path
+        if not os.path.isfile(settings_file):
+            # settings file does not exist
+            print('Unable to find file: {0!s}'.format(settings_file))
 
-                # login new
-                api = Client(
+            # login new
+            api = Client(
+                username, password,
+                on_login=lambda x: onlogin_callback(x, settings_file_path))
+        else:
+            with open(settings_file) as file_data:
+                try:
+                    cached_settings = json.load(file_data, object_hook=from_json)
+                    print('Reusing settings: {0!s}'.format(settings_file))
+                    device_id = cached_settings.get('device_id')
+                    # reuse auth settings
+                    api = Client(
+                        username, password,
+                        settings=cached_settings)
+
+                except json.decoder.JSONDecodeError: # if the file is there but empty
+                    os.remove(settings_file)
+                    # login new
+                    api = Client(
                     username, password,
                     on_login=lambda x: onlogin_callback(x, settings_file_path))
-            else:
-                with open(settings_file) as file_data:
-                    cached_settings = json.load(file_data, object_hook=from_json)
-                print('Reusing settings: {0!s}'.format(settings_file))
+                    
 
-                device_id = cached_settings.get('device_id')
-                # reuse auth settings
-                api = Client(
-                    username, password,
-                    settings=cached_settings)
 
     except (ClientCookieExpiredError, ClientLoginRequiredError) as e:
         print('ClientCookieExpiredError/ClientLoginRequiredError: {0!s}'.format(e))
