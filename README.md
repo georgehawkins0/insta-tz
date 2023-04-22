@@ -45,7 +45,7 @@ You need to add login credentials for the account you wish to do the crawling fr
         $ tz.py --target github
 
 
-2. Analyse post time of @github, but only crawl first 250 posts
+2. Analyse post time of @github, but only crawl the 250 most recent posts
 
         $ tz.py --target github --limit 250
 
@@ -119,7 +119,7 @@ Hour   Frequency
  The actual data collection makes use of [instagram_private_api](https://github.com/ping/instagram_private_api). [TQDM](https://github.com/tqdm/tqdm) is used for the progress bar and [Rich](https://github.com/Textualize/rich) is used for the pretty red colour of the banner.
 
 ## Further
-This application generates a frequency per hour of post upload time of the target. Using this, it tries to work out the timezone of a user by taking into account the time the user will be inactive while asleep. However everone has different lifestyles and as such this command is probably only accurate +/-3 hours, maybe more. However it is still a very useful insight into a users lifestyle.
+This application generates a frequency per hour of post upload time of the target. Using this, it tries to work out the timezone of a user by taking into account the time the user will be inactive while asleep. However everyone has different lifestyles and as such this algorithm may be innacurate +/-3 hours, maybe more. However it is still a very useful insight into a users lifestyle.
 
 Using this graph, you can also very quickly work out if the posts on the account are botted (if not obvious already) or posted by multiple people. A botted account will have no obvious rest period perhaps as such:
 ```Hour   Frequency
