@@ -227,7 +227,8 @@ if __name__ == "__main__":
 
     if args.target:
         banner()
-        if can_crawl(username=args.target):
+        #if can_crawl(username=args.target):
+        if True:
             times = []
             target_id = get_id(args.target)
             if args.limit:
